@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مرآة سور القرآن الكريم - المصحف المجود</title>
+    <!-- استيراد خطوط عربية أنيقة -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e3d2f;
+            --accent-color: #d4af37;
+            --bg-color: #f4f6f4;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --text-muted: #666666;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #27ae60;
+            --accent-color: #f1c40f;
+            --bg-color: #121814;
+            --card-bg: #1a231e;
+            --text-color: #ecf0f1;
+            --text-muted: #a0aec0;
+            --border-color: #2d3748;
+            --shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        /* زر الوضع الليلي */
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary-color);
+        }
+
+        /* شارة جنود الخفاء */
+        .badge-invisible {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: #fff;
+            padding: 4px 14px;
+            font-size: 0.8rem;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-family: 'Amiri', serif;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin: 5px 0;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Cairo', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(30, 61, 47, 0.1);
+        }
+
+        .surah-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .surah-card {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+            border: 1px solid var(--border-color);
+            border-right: 5px solid var(--primary-color);
+        }
+
+        .surah-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .surah-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .surah-number {
+            background-color: var(--primary-color);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .surah-name {
+            font-family: 'Amiri', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        audio {
+            height: 40px;
+            outline: none;
+            filter: sepia(20%) saturate(70%);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 600px) {
+            .surah-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            audio {
+                width: 100%;
+            }
+            .theme-toggle {
+                position: static;
+                margin: 0 auto 15px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+                🌙 <span>الوضع الليلي</span>
+            </button>
+            
+            <div class="badge-invisible">جنود الخفاء</div>
+            <h1>القرآن الكريم</h1>
+            <p>برواية القارئ الشيخ عبد الباسط عبد الصمد (المصحف المجود)</p>
+        </header>
+
+        <!-- شريط البحث الفوري -->
+        <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن اسم السورة..." onkeyup="filterSurahs()">
+
+        <!-- قائمة السور -->
+        <div id="surahList" class="surah-list">
+            <!-- سيتم تعبئة العناصر برمجياً -->
+        </div>
+
+        <footer>
+            تم التطوير بواسطة <strong>جنود الخفاء</strong> &copy; 2026
+        </footer>
+    </div>
+
+    <script>
+        // مصفوفة سور القرآن الكريم الـ 114 كاملة مع روابط المصحف المجود
+        const surahs = [
+            { id: 1, name: "سورة الفاتحة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/001.mp3" },
+            { id: 2, name: "سورة البقرة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/002.mp3" },
+            { id: 3, name: "سورة آل عمران", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/003.mp3" },
+            { id: 4, name: "سورة النساء", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/004.mp3" },
+            { id: 5, name: "سورة المائدة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/005.mp3" },
+            { id: 6, name: "سورة الأنعام", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/006.mp3" },
+            { id: 7, name: "سورة الأعراف", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/007.mp3" },
+            { id: 8, name: "سورة الأنفال", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/008.mp3" },
+            { id: 9, name: "سورة التوبة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/009.mp3" },
+            { id: 10, name: "سورة يونس", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/010.mp3" },
+            { id: 11, name: "سورة هود", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/011.mp3" },
+            { id: 12, name: "سورة يوسف", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/012.mp3" },
+            { id: 13, name: "سورة الرعد", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/013.mp3" },
+            { id: 14, name: "سورة إبراهيم", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/014.mp3" },
+            { id: 15, name: "سورة الحجر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/015.mp3" },
+            { id: 16, name: "سورة النحل", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/016.mp3" },
+            { id: 17, name: "سورة الإسراء", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/017.mp3" },
+            { id: 18, name: "سورة الكهف", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/018.mp3" },
+            { id: 19, name: "سورة مريم", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/019.mp3" },
+            { id: 20, name: "سورة طه", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/020.mp3" },
+            { id: 21, name: "سورة الأنبياء", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/021.mp3" },
+            { id: 22, name: "سورة الحج", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/022.mp3" },
+            { id: 23, name: "سورة المؤمنون", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/123.mp3" },
+            { id: 24, name: "سورة النور", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/024.mp3" },
+            { id: 25, name: "سورة الفرقان", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/025.mp3" },
+            { id: 26, name: "سورة الشعراء", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/026.mp3" },
+            { id: 27, name: "سورة النمل", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/027.mp3" },
+            { id: 28, name: "سورة القصص", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/028.mp3" },
+            { id: 29, name: "سورة العنكبوت", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/029.mp3" },
+            { id: 30, name: "سورة الروم", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/030.mp3" },
+            { id: 31, name: "سورة لقمان", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/031.mp3" },
+            { id: 32, name: "سورة السجدة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/032.mp3" },
+            { id: 33, name: "سورة الأحزاب", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/033.mp3" },
+            { id: 34, name: "سورة سبأ", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/034.mp3" },
+            { id: 35, name: "سورة فاطر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/035.mp3" },
+            { id: 36, name: "سورة يس", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/036.mp3" },
+            { id: 37, name: "سورة الصافات", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/037.mp3" },
+            { id: 38, name: "سورة ص", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/038.mp3" },
+            { id: 39, name: "سورة الزمر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/039.mp3" },
+            { id: 40, name: "سورة غافر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/040.mp3" },
+            { id: 41, name: "سورة فصلت", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/041.mp3" },
+            { id: 42, name: "سورة الشورى", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/042.mp3" },
+            { id: 43, name: "سورة الزخرف", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/043.mp3" },
+            { id: 44, name: "سورة الدخان", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/044.mp3" },
+            { id: 45, name: "سورة الجاثية", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/045.mp3" },
+            { id: 46, name: "سورة الأحقاف", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/046.mp3" },
+            { id: 47, name: "سورة محمد", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/047.mp3" },
+            { id: 48, name: "سورة الفتح", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/048.mp3" },
+            { id: 49, name: "سورة الحجرات", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/049.mp3" },
+            { id: 50, name: "سورة ق", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/050.mp3" },
+            { id: 51, name: "سورة الذاريات", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/051.mp3" },
+            { id: 52, name: "سورة الطور", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/052.mp3" },
+            { id: 53, name: "سورة النجم", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/053.mp3" },
+            { id: 54, name: "سورة القمر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/054.mp3" },
+            { id: 55, name: "سورة الرحمن", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/055.mp3" },
+            { id: 56, name: "سورة الواقعة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/056.mp3" },
+            { id: 57, name: "سورة الحديد", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/057.mp3" },
+            { id: 58, name: "سورة المجادلة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/058.mp3" },
+            { id: 59, name: "سورة الحشر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/059.mp3" },
+            { id: 60, name: "سورة الممتحنة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/060.mp3" },
+            { id: 61, name: "سورة الصف", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/061.mp3" },
+            { id: 62, name: "سورة الجمعة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/062.mp3" },
+            { id: 63, name: "سورة المنافقون", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/063.mp3" },
+            { id: 64, name: "سورة التغابن", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/064.mp3" },
+            { id: 65, name: "سورة الطلاق", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/065.mp3" },
+            { id: 66, name: "سورة التحريم", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/066.mp3" },
+            { id: 67, name: "سورة الملك", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/067.mp3" },
+            { id: 68, name: "سورة القلم", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/068.mp3" },
+            { id: 69, name: "سورة الحاقة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/069.mp3" },
+            { id: 70, name: "سورة المعارج", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/070.mp3" },
+            { id: 71, name: "سورة نوح", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/071.mp3" },
+            { id: 72, name: "سورة الجن", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/072.mp3" },
+            { id: 73, name: "سورة المزمل", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/073.mp3" },
+            { id: 74, name: "سورة المدثر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/074.mp3" },
+            { id: 75, name: "سورة القيامة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/075.mp3" },
+            { id: 76, name: "سورة الإنسان", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/076.mp3" },
+            { id: 77, name: "سورة المرسلات", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/077.mp3" },
+            { id: 78, name: "سورة النبأ", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/078.mp3" },
+            { id: 79, name: "سورة النازعات", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/079.mp3" },
+            { id: 80, name: "سورة عبس", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/080.mp3" },
+            { id: 81, name: "سورة التكوير", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/081.mp3" },
+            { id: 82, name: "سورة الانفطار", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/082.mp3" },
+            { id: 83, name: "سورة المطففين", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/083.mp3" },
+            { id: 84, name: "سورة الانشقاق", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/084.mp3" },
+            { id: 85, name: "سورة البروج", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/085.mp3" },
+            { id: 86, name: "سورة الطارق", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/086.mp3" },
+            { id: 87, name: "سورة الأعلى", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/087.mp3" },
+            { id: 88, name: "سورة الغاشية", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/088.mp3" },
+            { id: 89, name: "سورة الفجر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/089.mp3" },
+            { id: 90, name: "سورة البلد", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/090.mp3" },
+            { id: 91, name: "سورة الشمس", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/091.mp3" },
+            { id: 92, name: "سورة الليل", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/092.mp3" },
+            { id: 93, name: "سورة الضحى", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/093.mp3" },
+            { id: 94, name: "سورة الشرح", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/094.mp3" },
+            { id: 95, name: "سورة التين", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/095.mp3" },
+            { id: 96, name: "سورة العلق", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/096.mp3" },
+            { id: 97, name: "سورة القدر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/097.mp3" },
+            { id: 98, name: "سورة البينة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/098.mp3" },
+            { id: 99, name: "سورة الزلزلة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/099.mp3" },
+            { id: 100, name: "سورة العاديات", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/100.mp3" },
+            { id: 101, name: "سورة القارعة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/101.mp3" },
+            { id: 102, name: "سورة التكاثر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/102.mp3" },
+            { id: 103, name: "سورة العصر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/103.mp3" },
+            { id: 104, name: "سورة الهمزة", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/104.mp3" },
+            { id: 105, name: "سورة الفيل", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/105.mp3" },
+            { id: 106, name: "سورة قريش", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/106.mp3" },
+            { id: 107, name: "سورة الماعون", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/107.mp3" },
+            { id: 108, name: "سورة الكوثر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/108.mp3" },
+            { id: 109, name: "سورة الكافرون", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/109.mp3" },
+            { id: 110, name: "سورة النصر", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/110.mp3" },
+            { id: 111, name: "سورة المسد", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/111.mp3" },
+            { id: 112, name: "سورة الإخلاص", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/112.mp3" },
+            { id: 113, name: "سورة الفلق", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/113.mp3" },
+            { id: 114, name: "سورة الناس", url: "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/114.mp3" }
+        ];
+
+        const surahListContainer = document.getElementById('surahList');
+
+        function displaySurahs(surahsArray) {
+            surahListContainer.innerHTML = '';
+            
+            if(surahsArray.length === 0) {
+                surahListContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted);">لا توجد نتائج مطابقة للبحث.</p>';
+                return;
+            }
+
+            surahsArray.forEach(surah => {
+                const card = document.createElement('div');
+                card.className = 'surah-card';
+                
+                card.innerHTML = `
+                    <div class="surah-info">
+                        <div class="surah-number">${surah.id}</div>
+                        <div class="surah-name">${surah.name}</div>
+                    </div>
+                    <audio controls preload="none">
+                        <source src="${surah.url}" type="audio/mpeg">
+                        متصفحك لا يدعم مشغل الصوت.
+                    </audio>
+                `;
+                surahListContainer.appendChild(card);
+            });
+        }
+
+        function filterSurahs() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = surahs.filter(surah => surah.name.toLowerCase().includes(query));
+            displaySurahs(filtered);
+        }
+
+        // دالة تبديل الوضع الليلي والنهاري وحفظ الخيار في متصفح المستخدم
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeBtn = document.getElementById('themeBtn');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                themeBtn.innerHTML = '🌙 <span>الوضع الليلي</span>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeBtn.innerHTML = '☀️ <span>الوضع النهاري</span>';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // استرجاع تفضيل المستخدم للوضع السابق عند إعادة تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeBtn').innerHTML = '☀️ <span>الوضع النهاري</span>';
+            }
+            displaySurahs(surahs);
+        });
+    </script>
+</body>
+</html>
