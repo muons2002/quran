@@ -2,140 +2,292 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>ترسانة جنود الخفاء</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>القرآن الكريم - المصحف المجود</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://muons2002.github.io/quran/" />
+    <meta property="og:title" content="القرآن الكريم - المصحف المجود" />
+    <meta property="og:description" content="برواية القارئ الشيخ عبد الباسط عبد الصمد - استمع إلى القرآن الكريم أونلاين بصوت عالي الجودة" />
+    <meta property="og:image" content="https://muons2002.github.io/quran/cover.jpg" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #0a1128; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; color: white; font-family: sans-serif; }
-        .container { display: flex; flex-direction: column; align-items: center; gap: 15px; width: 90%; max-width: 400px; padding: 15px; }
-        h2 { color: #4fc3f7; margin-bottom: 0px; }
-        
-        .clock-wrapper { position: relative; width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; }
-        #halo { 
-            position: absolute; width: 180px; height: 180px; border-radius: 50%; 
-            background: conic-gradient(from 0deg, #ff5252, #ffeb3b, #4fc3f7, #76ff03, #ff5252);
-            filter: blur(15px); opacity: 0.7;
-            z-index: 0; transition: transform 0.08s ease-out; 
+        :root {
+            --primary-color: #1e3d2f;
+            --accent-color: #d4af37;
+            --bg-color: #f4f6f4;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --text-muted: #666666;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .clock-container { width: 180px; height: 180px; background: #1a2936; border-radius: 50%; border: 3px solid #4fc3f7; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; }
-        
-        .num { position: absolute; font-size: 0.9rem; font-weight: bold; color: #4fc3f7; }
-        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; background: white; border-radius: 5px; }
-        #hour { height: 40px; width: 5px; margin-left: -2.5px; }
-        #min { height: 55px; width: 4px; margin-left: -2px; }
-        #sec { height: 65px; width: 2px; margin-left: -1px; background: #ff5252; }
-        
-        select { width: 100%; padding: 8px; background: #1a2936; color: #4fc3f7; border: 1px solid #4fc3f7; border-radius: 5px; font-weight: bold; cursor: pointer; }
-        button { padding: 10px; background: #4fc3f7; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: #0f171e; width: 100%; }
-        
-        .volume-knob-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; color: #4fc3f7; font-size: 0.7rem; font-weight: bold; }
-        .knob-outer { position: relative; width: 60px; height: 60px; background: #1a2936; border-radius: 50%; border: 2px solid #4fc3f7; cursor: grab; margin-top: 5px; box-shadow: 0 0 10px rgba(79, 195, 247, 0.3); }
-        .knob-indicator { position: absolute; top: 5px; left: 50%; transform: translateX(-50%) rotate(0deg); width: 4px; height: 25px; background: #4fc3f7; border-radius: 2px; transform-origin: bottom center; }
+
+        [data-theme="dark"] {
+            --primary-color: #27ae60;
+            --accent-color: #f1c40f;
+            --bg-color: #121814;
+            --card-bg: #1a231e;
+            --text-color: #ecf0f1;
+            --text-muted: #a0aec0;
+            --border-color: #2d3748;
+            --shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .badge-invisible {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: #fff;
+            padding: 4px 14px;
+            font-size: 0.8rem;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        header h1 {
+            font-family: 'Amiri', serif;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin: 5px 0;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            outline: none;
+            font-family: 'Cairo', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+
+        .surah-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .surah-card {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border-color);
+            border-right: 5px solid var(--primary-color);
+        }
+
+        .surah-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .surah-number {
+            background-color: var(--primary-color);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .surah-name {
+            font-family: 'Amiri', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        audio {
+            height: 40px;
+            outline: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 600px) {
+            .surah-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            audio {
+                width: 100%;
+            }
+            .theme-toggle {
+                position: static;
+                margin: 0 auto 15px auto;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>إذاعة جنود الخفاء</h2>
-    <div class="clock-wrapper">
-        <div id="halo"></div>
-        <div class="clock-container">
-            <script>
-                for(let i=1; i<=12; i++) {
-                    let angle = (i * 30) * (Math.PI / 180);
-                    let x = 70 * Math.sin(angle);
-                    let y = -70 * Math.cos(angle);
-                    document.write(`<div class="num" style="transform:translate(${x}px, ${y}px)">${i}</div>`);
-                }
-            </script>
-            <div class="hand" id="hour"></div>
-            <div class="hand" id="min"></div>
-            <div class="hand" id="sec"></div>
-        </div>
+    <div class="container">
+        <header>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+                🌙 <span>الوضع الليلي</span>
+            </button>
+            
+            <div class="badge-invisible">جنود الخفاء</div>
+            <h1>القرآن الكريم</h1>
+            <p>برواية القارئ الشيخ عبد الباسط عبد الصمد (المصحف المجود)</p>
+        </header>
+
+        <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن اسم السورة..." onkeyup="filterSurahs()">
+
+        <div id="surahList" class="surah-list"></div>
+
+        <footer>
+            تم التطوير بواسطة <strong>جنود الخفاء</strong> &copy; 2026
+        </footer>
     </div>
 
-    <select id="stationSelect">
-        <option value="https://stream.radiojar.com/8s5u5tpdtwzuv">إذاعة القرآن الكريم من القاهرة</option>
-        <option value="https://qurango.net/radio/mix">إذاعة القرآن الكريم (منوعات)</option>
-        <option value="https://radiohits882.radioca.st/stream">راديو هيتس</option>
-        <option value="https://ahmsamir.radioca.st/stream">راديو نجوم FM</option>
-        <option value="https://carina.streamerr.co:2020/stream/OnSportFM">أون سبورت FM</option>
-        <option value="https://stream.live.vc.bbcmedia.co.uk/bbc_arabic_radio">BBC عربي</option>
-        <option value="http://curiosity.shoutca.st:6035/stream">إذاعة Curiosity</option>
-        <option value="https://stream-281.surfernetwork.com/zsgrfxg71s8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ6c2dyZnhnNzFzOHV2IiwiaG9zdCI6InN0cmVhbS0yODEuc3VyZmVybmV0d29yay5jb20iLCJydHRsIjo1LCJqdGkiOiJIaEtsZTVCOFIyYUVBMWpwb01WS0pBIiwiaWF0IjoxNzg0MzE3NTAzLCJleHAiOjE3ODQzMTc1NjN9.aR6wchPE3_fi48xnBIySF2lh-j3MJYRbMSfF1jo-SHc">إذاعة أم كلثوم</option>
-        <option value="https://stream-282.surfernetwork.com/xda10sbtsg0uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ4ZGExMHNidHNnMHV2IiwiaG9zdCI6InN0cmVhbS0yODIuc3VyZmVybmV0d29yay5jb20iLCJydHRsIjo1LCJqdGkiOiJiUTJWc3lRelF6ZTM5TW4yMjdZdS1RIiwiaWF0IjoxNzg0MzE3NzYxLCJleHAiOjE3ODQzMTc4MjF9.BIfIAQtyw2SG_f7A-rAh1JKYt0HuWnbhxJU3fqpKRy0">إذاعة الشباب والرياضة</option>
-        <option value="https://stream-280.surfernetwork.com/xa4yhh4k838uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ4YTR5aGg0azgzOHV2IiwiaG9zdCI6InN0cmVhbS0yODAuc3VyZmVybmV0d29yay5jb20iLCJydHRsIjo1LCJqdGkiOiJpWkdVdnFqNVJoS3JqSi1UTkdJOTVRIiwiaWF0IjoxNzg0MzE3OTk2LCJleHAiOjE3ODQzMTgwNTZ9.79akP8Tv2eJRy2Ahb-VKeCvjoX0RkMblnA8PerI1GXc">إذاعة البرنامج العام</option>
-    </select>
-    
-    <button id="btn" onclick="toggleRadio()">تشغيل الإذاعة</button>
-    
-    <div class="volume-knob-container">
-        <label>مستوى الصوت</label>
-        <div class="knob-outer" id="volumeKnob">
-            <div class="knob-indicator" id="knobIndicator" style="transform: translateX(-50%) rotate(135deg);"></div>
-        </div>
-    </div>
+    <script>
+        const surahs = Array.from({ length: 114 }, (_, i) => {
+            const id = i + 1;
+            const numStr = id.toString().padStart(3, '0');
+            const names = [
+                "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
+                "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه",
+                "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم",
+                "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر",
+                "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق",
+                "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة",
+                "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج",
+                "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس",
+                "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد",
+                "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات",
+                "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر",
+                "المسد", "الإخلاص", "الفلق", "الناس"
+            ];
+            return {
+                id: id,
+                name: "سورة " + names[i],
+                url: `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${numStr}.mp3`
+            };
+        });
 
-    <audio id="audio" crossorigin="anonymous" preload="auto"></audio>
-</div>
+        const surahListContainer = document.getElementById('surahList');
 
-<script>
-    const audio = document.getElementById('audio'), btn = document.getElementById('btn'), halo = document.getElementById('halo'), knob = document.getElementById('volumeKnob'), indicator = document.getElementById('knobIndicator');
-    let isPlaying = false, audioCtx, analyser, isDragging = false, startY, startRotation = 135;
-
-    // التحكم بالماوس (سحب)
-    knob.addEventListener('mousedown', (e) => { isDragging = true; startY = e.clientY; e.preventDefault(); });
-    document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        let deltaY = startY - e.clientY;
-        startRotation = Math.max(-135, Math.min(135, startRotation + (deltaY * 2)));
-        indicator.style.transform = `translateX(-50%) rotate(${startRotation}deg)`;
-        audio.volume = ((startRotation + 135) / 270).toFixed(2);
-        startY = e.clientY;
-    });
-    document.addEventListener('mouseup', () => isDragging = false);
-
-    // التحكم بعجلة الماوس
-    knob.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        let delta = e.deltaY > 0 ? -15 : 15;
-        startRotation = Math.max(-135, Math.min(135, startRotation + delta));
-        indicator.style.transform = `translateX(-50%) rotate(${startRotation}deg)`;
-        audio.volume = Math.max(0, Math.min(1, (startRotation + 135) / 270)).toFixed(2);
-    }, {passive: false});
-
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('sec').style.transform = `rotate(${now.getSeconds() * 6}deg)`;
-        document.getElementById('min').style.transform = `rotate(${now.getMinutes() * 6}deg)`;
-        document.getElementById('hour').style.transform = `rotate(${(now.getHours() % 12) * 30 + now.getMinutes() * 0.5}deg)`;
-        requestAnimationFrame(updateClock);
-    }
-    updateClock();
-
-    function toggleRadio() {
-        if (!isPlaying) {
-            audio.src = document.getElementById('stationSelect').value;
-            audio.play();
-            btn.innerText = "إيقاف الإذاعة"; btn.style.backgroundColor = "#ff5252"; btn.style.color = "white"; isPlaying = true; startVisualizer();
-        } else {
-            audio.pause(); audio.src = ""; btn.innerText = "تشغيل الإذاعة"; btn.style.backgroundColor = "#4fc3f7"; btn.style.color = "#0f171e"; isPlaying = false;
+        function displaySurahs(surahsArray) {
+            surahListContainer.innerHTML = '';
+            if(surahsArray.length === 0) {
+                surahListContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted);">لا توجد نتائج مطابقة للبحث.</p>';
+                return;
+            }
+            surahsArray.forEach(surah => {
+                const card = document.createElement('div');
+                card.className = 'surah-card';
+                card.innerHTML = `
+                    <div class="surah-info">
+                        <div class="surah-number">${surah.id}</div>
+                        <div class="surah-name">${surah.name}</div>
+                    </div>
+                    <audio controls preload="none">
+                        <source src="${surah.url}" type="audio/mpeg">
+                    </audio>
+                `;
+                surahListContainer.appendChild(card);
+            });
         }
-    }
 
-    function startVisualizer() {
-        if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const source = audioCtx.createMediaElementSource(audio);
-            analyser = audioCtx.createAnalyser(); source.connect(analyser); analyser.connect(audioCtx.destination); analyser.fftSize = 64;
+        function filterSurahs() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = surahs.filter(surah => surah.name.toLowerCase().includes(query));
+            displaySurahs(filtered);
         }
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-        function draw() {
-            if (!isPlaying) return;
-            analyser.getByteFrequencyData(dataArray);
-            halo.style.transform = `scale(${1 + (dataArray.reduce((a, b) => a + b) / 12000)})`;
-            requestAnimationFrame(draw);
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeBtn = document.getElementById('themeBtn');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                themeBtn.innerHTML = '🌙 <span>الوضع الليلي</span>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeBtn.innerHTML = '☀️ <span>الوضع النهاري</span>';
+                localStorage.setItem('theme', 'dark');
+            }
         }
-        draw();
-    }
-</script>
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeBtn').innerHTML = '☀️ <span>الوضع النهاري</span>';
+            }
+            displaySurahs(surahs);
+        });
+    </script>
 </body>
 </html>
